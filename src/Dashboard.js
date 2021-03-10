@@ -27,6 +27,7 @@ import {
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import { CSVLink } from "react-csv";
 import CircularProgress from '@material-ui/core/CircularProgress';
+import config from "./config.json"
 
 const axios = require('axios');
 
@@ -44,7 +45,6 @@ function Copyright() {
   );
 }
 
-const indexs = ["FMCG", "ENERGY"]
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -132,7 +132,7 @@ export default function Dashboard() {
   var date = new Date();
   date.setDate(date.getDate() - 1);
   const [selectedDate, setSelectedDate] = useState(date);
-  const [index, setIndex] = useState();
+  const [index, setIndex] = useState("All");
   const [csvResponse, setCsvResponse] = useState([]);
   const [indexData, setIndexData] = useState([]);
   const handleDateChange = (date) => {
@@ -140,10 +140,14 @@ export default function Dashboard() {
   };
   function handleIndexChange(e) {
     const indexName = e.target.value
+    setIndex(indexName)
+    if (indexName === "All") {
+      setIndexData([]);
+      return;
+    }
     import('./IndexData/' + indexName).then((data) => {
       setIndexData(data.default);
     });
-    setIndex(indexName)
   }
   const [exchange, setExchange] = React.useState('nse');
   function getDateInFormat() {
@@ -157,12 +161,28 @@ export default function Dashboard() {
   function handleTextChange(e) {
     setIndexData(e.target.value)
   }
+  function getDate() {
+    let monthNames = ["Jan", "Feb", "Mar", "Apr",
+      "May", "Jun", "Jul", "Aug",
+      "Sep", "Oct", "Nov", "Dec"];
+
+    let day = selectedDate.getDate();
+    if (day < 10) {
+      day = "0" + day
+    }
+    let monthIndex = selectedDate.getMonth();
+    let monthName = monthNames[monthIndex];
+
+    let year = selectedDate.getFullYear();
+    return `${day}${monthName}${year}`;
+  }
   function handleDownloadClick() {
     setShowProgress(true)
     axios({
       method: 'post',
-      url: 'http://localhost:8080/getbhavcopy',
+      url: config.backendUrl + '/getbhavcopy',
       data: {
+        "Date": getDate(),
         "NSE50": indexData
       }
     }).then(function (response) {
@@ -209,11 +229,15 @@ export default function Dashboard() {
                   labelId="demo-simple-select-outlined-label"
                   id="demo-simple-select-outlined"
                   value={index}
+                  defaultValue=""
                   onChange={handleIndexChange}
                   label="Select Indices"
                   style={{ width: "250px" }}
                 >
-                  {indexs.map((index) => {
+                  <MenuItem value="All">
+                    <em>All</em>
+                  </MenuItem>
+                  {config.indexs.map((index) => {
                     return (<MenuItem value={index + ".json"}>{index}</MenuItem>)
                   })}
                 </Select>
@@ -241,11 +265,11 @@ export default function Dashboard() {
               </FormControl>
             </Grid>
             <Grid item xs={3} style={{ alignSelf: "center" }}>
-              <Button variant="contained" color="primary" onClick={handleDownloadClick}>
+              <Button disabled={showProgress} variant="contained" color="primary" onClick={handleDownloadClick}>
                 Download
               </Button>
-              {showProgress ? <CircularProgress /> : <div />}
-              <CSVLink
+              {showProgress ? <CircularProgress/> : <div />}
+              <CSVLink              
                 data={csvResponse}
                 filename={index ? index.split(".")[0] + "-" + getDateInFormat() + ".csv" : fileName + ".csv"}
                 className="hidden"

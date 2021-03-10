@@ -1,0 +1,4 @@
+{
+    "backendUrl" : "https://bhavcopy-backend.herokuapp.com",
+    "indexs" : ["FMCG", "ENERGY"]
+}
