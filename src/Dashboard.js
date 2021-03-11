@@ -145,9 +145,16 @@ export default function Dashboard() {
       setIndexData([]);
       return;
     }
-    import('./IndexData/' + indexName).then((data) => {
-      setIndexData(data.default);
-    });
+    if (exchange === "bse" || exchange === "") {
+      import('./BSEIndexConfigs/' + indexName).then((data) => {
+        setIndexData(data.default);
+      });
+    } else {
+      import('./NSEIndexConfigs/' + indexName).then((data) => {
+        setIndexData(data.default);
+      });
+    }
+
   }
   const [exchange, setExchange] = React.useState('nse');
   function getDateInFormat() {
@@ -156,10 +163,16 @@ export default function Dashboard() {
     }).replace(/ /g, '-')
   }
   const handleRadioChange = (event) => {
-    setExchange(event.target.value);
+    const exchange = event.target.value;
+    setExchange(exchange);
+    if (exchange === "bse") {
+      setFund(config.bseFund[0])
+      return
+    }
+    setFund(config.nseFund[0])
   };
   function handleTextChange(e) {
-    setIndexData(e.target.value)
+    setIndexData(e.target.value.split(","))
   }
   function getDate() {
     let monthNames = ["Jan", "Feb", "Mar", "Apr",
@@ -183,7 +196,9 @@ export default function Dashboard() {
       url: config.backendUrl + '/getbhavcopy',
       data: {
         "Date": getDate(),
-        "NSE50": indexData
+        "NSE50": indexData,
+        "Exchange": exchange.toUpperCase(),
+        "Fund": fund
       }
     }).then(function (response) {
       setCsvResponse(response.data);
@@ -193,6 +208,10 @@ export default function Dashboard() {
       console.log(error);
       setShowProgress(false)
     })
+  }
+  const [fund, setFund] = useState(config.nseFund[0])
+  function handlefundChange(e) {
+    setFund(e.target.value)
   }
   const fileName = getDateInFormat();
   return (
@@ -210,7 +229,7 @@ export default function Dashboard() {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Grid container spacing={1} style={{ margin: "20px" }}>
-          <Grid container spacing={3}>
+          <Grid container spacing={3} style={{ flexWrap: "unset" }}>
             <Grid item xs={3} style={{ alignSelf: "center" }}>
               <FormControl component="fieldset">
                 <FormLabel component="legend">Stock Exchange</FormLabel>
@@ -220,6 +239,30 @@ export default function Dashboard() {
                     <FormControlLabel value="bse" control={<Radio />} label="BSE" />
                   </div>
                 </RadioGroup>
+              </FormControl>
+            </Grid>
+            <Grid item xs={3} style={{ alignSelf: "center" }}>
+              <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel id="demo-simple-select-outlined-label">Select Fund</InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={fund}
+                  defaultValue={fund}
+                  onChange={handlefundChange}
+                  label="Select Fund"
+                  style={{ width: "250px" }}
+                >
+                  {
+                    exchange === "nse" ? config.nseFund.map((fund) => {
+                      return (<MenuItem value={fund}>{fund}</MenuItem>)
+                    }) :
+                      config.bseFund.map((fund) => {
+                        return (<MenuItem value={fund}>{fund}</MenuItem>)
+                      })
+                  }
+
+                </Select>
               </FormControl>
             </Grid>
             <Grid item xs={3} style={{ alignSelf: "center" }}>
@@ -268,10 +311,10 @@ export default function Dashboard() {
               <Button disabled={showProgress} variant="contained" color="primary" onClick={handleDownloadClick}>
                 Download
               </Button>
-              {showProgress ? <CircularProgress/> : <div />}
-              <CSVLink              
+              {showProgress ? <CircularProgress /> : <div />}
+              <CSVLink
                 data={csvResponse}
-                filename={index ? index.split(".")[0] + "-" + getDateInFormat() + ".csv" : fileName + ".csv"}
+                filename={index ? exchange + "-" + index.split(".")[0] + "-" + getDateInFormat() + ".csv" : exchange + "-" + fileName + ".csv"}
                 className="hidden"
                 ref={csvLink}
                 target="_blank" />

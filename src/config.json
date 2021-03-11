@@ -1,4 +1,6 @@
 {
-    "backendUrl" : "https://bhavcopy-backend.herokuapp.com",
-    "indexs" : ["FMCG", "ENERGY"]
+    "backendUrl" : "http://localhost:8080",
+    "indexs" : ["FMCG", "ENERGY"],
+    "nseFund" : ["EQUITIES"],
+    "bseFund" : ["Equity"]
 }
