@@ -1,6 +1,40 @@
 {
-    "backendUrl" : "http://localhost:8080",
-    "indexs" : ["FMCG", "ENERGY"],
-    "nseFund" : ["EQUITIES"],
-    "bseFund" : ["Equity"]
+    "backendUrl": "http://localhost:8080",
+    "nseIndexs": [
+        "AUTO",
+        "BANK",
+        "CONSUMERDURABLES",
+        "FINANCE",
+        "FINANCIAL_SERVICES",
+        "FMCG",
+        "HEALTHCARE",
+        "IT",
+        "MEDIA_ENTERTAINMENT",
+        "METAL",
+        "OIL_GAS",
+        "PHARMA",
+        "PRIVATE_BANK",
+        "PSU_BANK",
+        "REALTY",
+        "NIFTY50",
+        "NIFTY100",
+        "NIFTY200",
+        "NIFTY500",
+        "NIFTY500_MULTICAP_50_25_25",
+        "NIFTY_LARGE_MIDCAP250",
+        "NIFTY_MIDCAP50",
+        "NIFTY_MIDCAP100",
+        "NIFTY_MIDCAP150",
+        "NIFTY_MID_SMALLCAP400",
+        "NIFTY_NEXT50",
+        "NIFTY_SMALLCAP50",
+        "NIFTY_SMALLCAP100",
+        "NIFTY_SMALLCAP250"
+    ],
+    "nseFund": [
+        "EQUITIES"
+    ],
+    "bseFund": [
+        "Equity"
+    ]
 }

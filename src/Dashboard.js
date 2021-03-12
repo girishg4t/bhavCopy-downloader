@@ -280,7 +280,7 @@ export default function Dashboard() {
                   <MenuItem value="All">
                     <em>All</em>
                   </MenuItem>
-                  {config.indexs.map((index) => {
+                  {config.nseIndexs.map((index) => {
                     return (<MenuItem value={index + ".json"}>{index}</MenuItem>)
                   })}
                 </Select>
@@ -296,7 +296,7 @@ export default function Dashboard() {
                       format="MM/dd/yyyy"
                       margin="normal"
                       id="date-picker-inline"
-                      label="Date picker inline"
+                      label="Date"
                       value={selectedDate}
                       onChange={handleDateChange}
                       KeyboardButtonProps={{
