@@ -15,11 +15,11 @@ It is written in react, which allows use to download the data based on there cho
 3) Select the Index for which the data is required default is All, current configured index are  
 <table>
   <tr>
-    <td colspan="4">NSE</td>
+    <td colspan="5">NSE</td>
     <td>BSE</td>
   </tr>
   <tr>
-    <td colspan="4"> "AUTO",
+    <td colspan="5">"AUTO",
         "BANK",
         "CONSUMERDURABLES",
         "FINANCE",
@@ -49,7 +49,6 @@ It is written in react, which allows use to download the data based on there cho
         "NIFTY_SMALLCAP100",
         "NIFTY_SMALLCAP250"</td>
          <td colspan="4">"AUTO",
-        "AUTO",
         "BANKS",
         "BASIC_MATERIALS",
         "CAPITAL_GOODS",
