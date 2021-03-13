@@ -27,7 +27,7 @@ import {
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import { CSVLink } from "react-csv";
 import CircularProgress from '@material-ui/core/CircularProgress';
-
+import config from "./config.json"
 const axios = require('axios');
 
 
@@ -35,8 +35,8 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" href="#">
+        BhavCopy Downloader
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -44,12 +44,12 @@ function Copyright() {
   );
 }
 
-const indexs = ["FMCG", "ENERGY"]
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    justifyContent: "center",
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
@@ -106,9 +106,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {
-    flexGrow: 1,
     height: '100vh',
-    overflow: 'auto',
   },
   container: {
     paddingTop: theme.spacing(4),
@@ -132,7 +130,7 @@ export default function Dashboard() {
   var date = new Date();
   date.setDate(date.getDate() - 1);
   const [selectedDate, setSelectedDate] = useState(date);
-  const [index, setIndex] = useState();
+  const [index, setIndex] = useState("All");
   const [csvResponse, setCsvResponse] = useState([]);
   const [indexData, setIndexData] = useState([]);
   const handleDateChange = (date) => {
@@ -140,10 +138,21 @@ export default function Dashboard() {
   };
   function handleIndexChange(e) {
     const indexName = e.target.value
-    import('./IndexData/' + indexName).then((data) => {
-      setIndexData(data.default);
-    });
     setIndex(indexName)
+    if (indexName === "All") {
+      setIndexData([]);
+      return;
+    }
+    if (exchange === "bse" || exchange === "") {
+      import('./BSEIndexConfigs/' + indexName).then((data) => {
+        setIndexData(data.default);
+      });
+    } else {
+      import('./NSEIndexConfigs/' + indexName).then((data) => {
+        setIndexData(data.default);
+      });
+    }
+
   }
   const [exchange, setExchange] = React.useState('nse');
   function getDateInFormat() {
@@ -152,18 +161,44 @@ export default function Dashboard() {
     }).replace(/ /g, '-')
   }
   const handleRadioChange = (event) => {
-    setExchange(event.target.value);
+    const exchange = event.target.value;
+    setExchange(exchange);
+    setIndex("All")
+    setIndexData([])
+    if (exchange === "bse") {
+      setFund(config.bseFund[0])
+      return
+    }
+    setFund(config.nseFund[0])
   };
   function handleTextChange(e) {
-    setIndexData(e.target.value)
+    setIndexData(e.target.value.split(","))
+  }
+  function getDate() {
+    let monthNames = ["Jan", "Feb", "Mar", "Apr",
+      "May", "Jun", "Jul", "Aug",
+      "Sep", "Oct", "Nov", "Dec"];
+
+    let day = selectedDate.getDate();
+    if (day < 10) {
+      day = "0" + day
+    }
+    let monthIndex = selectedDate.getMonth();
+    let monthName = monthNames[monthIndex];
+
+    let year = selectedDate.getFullYear();
+    return `${day}${monthName}${year}`;
   }
   function handleDownloadClick() {
     setShowProgress(true)
     axios({
       method: 'post',
-      url: 'http://localhost:8080/getbhavcopy',
+      url: config.backendUrl + '/getbhavcopy',
       data: {
-        "NSE50": indexData
+        "Date": getDate(),
+        "Stocks": indexData,
+        "Exchange": exchange.toUpperCase(),
+        "Fund": fund
       }
     }).then(function (response) {
       setCsvResponse(response.data);
@@ -174,6 +209,10 @@ export default function Dashboard() {
       setShowProgress(false)
     })
   }
+  const [fund, setFund] = useState(config.nseFund[0])
+  function handlefundChange(e) {
+    setFund(e.target.value)
+  }
   const fileName = getDateInFormat();
   return (
     <div className={classes.root}>
@@ -181,7 +220,15 @@ export default function Dashboard() {
       <AppBar position="absolute" className={clsx(classes.appBar && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Dashboard
+
+            <img
+              href="#"
+              style={{ height: "35px" }}
+              src="./logo192.png"
+            /><span style={{
+              margin: "5px",
+              verticalAlign: "top"
+            }} >BhavCopy Downloader</span>
           </Typography>
           <IconButton color="inherit">
           </IconButton>
@@ -190,7 +237,7 @@ export default function Dashboard() {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Grid container spacing={1} style={{ margin: "20px" }}>
-          <Grid container spacing={3}>
+          <Grid container spacing={3} style={{ flexWrap: "unset" }}>
             <Grid item xs={3} style={{ alignSelf: "center" }}>
               <FormControl component="fieldset">
                 <FormLabel component="legend">Stock Exchange</FormLabel>
@@ -204,18 +251,52 @@ export default function Dashboard() {
             </Grid>
             <Grid item xs={3} style={{ alignSelf: "center" }}>
               <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel id="demo-simple-select-outlined-label">Select Fund</InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={fund}
+                  defaultValue={fund}
+                  onChange={handlefundChange}
+                  label="Select Fund"
+                  style={{ width: "250px" }}
+                >
+                  {
+                    exchange === "nse" ? config.nseFund.map((fund) => {
+                      return (<MenuItem value={fund}>{fund}</MenuItem>)
+                    }) :
+                      config.bseFund.map((fund) => {
+                        return (<MenuItem value={fund}>{fund}</MenuItem>)
+                      })
+                  }
+
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={3} style={{ alignSelf: "center" }}>
+              <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel id="demo-simple-select-outlined-label">Select Index</InputLabel>
                 <Select
                   labelId="demo-simple-select-outlined-label"
                   id="demo-simple-select-outlined"
                   value={index}
+                  defaultValue=""
                   onChange={handleIndexChange}
                   label="Select Indices"
                   style={{ width: "250px" }}
                 >
-                  {indexs.map((index) => {
-                    return (<MenuItem value={index + ".json"}>{index}</MenuItem>)
-                  })}
+                  <MenuItem value="All">
+                    <em>All</em>
+                  </MenuItem>
+                  {
+                    exchange === "nse" ? config.nseIndexs.map((index) => {
+                      return (<MenuItem value={index + ".json"}>{index.replaceAll("_", " ")}</MenuItem>)
+                    }) :
+                      config.bseIndex.map((index) => {
+                        return (<MenuItem value={index + ".json"}>{index.replaceAll("_", " ")}</MenuItem>)
+                      })
+                  }
+
                 </Select>
               </FormControl>
             </Grid>
@@ -229,7 +310,7 @@ export default function Dashboard() {
                       format="MM/dd/yyyy"
                       margin="normal"
                       id="date-picker-inline"
-                      label="Date picker inline"
+                      label="Date"
                       value={selectedDate}
                       onChange={handleDateChange}
                       KeyboardButtonProps={{
@@ -241,13 +322,13 @@ export default function Dashboard() {
               </FormControl>
             </Grid>
             <Grid item xs={3} style={{ alignSelf: "center" }}>
-              <Button variant="contained" color="primary" onClick={handleDownloadClick}>
+              <Button disabled={showProgress} variant="contained" color="primary" onClick={handleDownloadClick}>
                 Download
               </Button>
               {showProgress ? <CircularProgress /> : <div />}
               <CSVLink
                 data={csvResponse}
-                filename={index ? index.split(".")[0] + "-" + getDateInFormat() + ".csv" : fileName + ".csv"}
+                filename={index ? exchange + "-" + index.split(".")[0] + "-" + getDateInFormat() + ".csv" : exchange + "-" + fileName + ".csv"}
                 className="hidden"
                 ref={csvLink}
                 target="_blank" />
@@ -255,7 +336,7 @@ export default function Dashboard() {
           </Grid>
         </Grid>
         <Grid container spacing={1} style={{ padding: "20px" }}>
-          <TextareaAutosize style={{ width: "100%", height: "360px" }} aria-label="maximum height"
+          <TextareaAutosize style={{ width: "100%", height: "360px", fontSize: "large", overflow: "none" }} aria-label="maximum height"
             value={indexData}
             onChange={handleTextChange}
             placeholder="" />
