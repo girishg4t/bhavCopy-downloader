@@ -1,18 +1,24 @@
 # BhavCopy Downloader
+Download NSE and BSE data free
 
-Getting stocks end of the data from NSE and BSE is difficult, i wanted to make that simple, customize, public and free, so that any one can download that easily and download the data as per there need.
+
+![logo](./public/favicon.ico)
+
+BhavCopy downloader is a FREE NSE and BSE end of the day stocks data downloader. As it connect to NSE and BSE server to get the data it is considered as authentic. it can download daily as well as historical EOD data for the currently configured indexes. it is simple, customizable, public and free, so that any one can download the data as per there need.
 
 ### Approach 
 #### Backend: 
-It is written in golang which makes an an api call to NSE and BSE to get all stocks end of the day data. ones the data is received it is stored in AWS. Based on the api request the data is then send in csv format.
+It is written in golang which makes an api call to NSE and BSE servers to get all stocks eod data. ones the data is received it is stored in AWS. Based on the api request, the data is then send in csv format.
 
 #### Frontend:
-It is written in react, which allows use to download the data based on there choice, below are the steps he/she need to perform, default is all stock download. 
+It is written in javascript react, which allows use to download the data based on there selection, below are the steps he/she need to perform to get the data, default is all stock download. 
   
     
 1) Select the Stock Exchange from which the data is required eg. NSE/BSE
 2) Select Fund for the particular exchange, currently it is configured for Equity only, in future more options will be added
-3) Select the Index for which the data is required default is All, current configured index are  
+3) Select the Index for which the data is required default is All.
+4) One's index is selected all the stock in that index get appear in textarea which is editable so that user can add/remove the stocks as per there need.  
+Current configured index are:  
 <table>
   <tr>
     <td colspan="5">NSE</td>
@@ -83,8 +89,8 @@ It is written in react, which allows use to download the data based on there cho
   </tr>
 </table>
 
-4) Selected date, to download the specific date data   
-5) Click on download to save the csv file.
+5) Select date, to download the specific day data   
+6) Click on download to save the csv file.
 
 ### In Action 
 
@@ -97,14 +103,14 @@ npm start
 
 ## Contributing
 
-As you know that stocks in index get change and keeping that up to date is not a one person job, that's why i have made all this configurable.
+As you know that stocks in an index get change and keeping that up to date is not a one person job, that's why i have made all this configurable.
 There are 2 folders "./src/NSEIndexConfigs"  and "./src/BSEIndexConfigs" in which all the index stocks configuration are present eg. Auto, Nifty50, BSE100 etc.
 
-You can make changes to config by adding/removing the stock as per NSE and BSE changes or create the customized config and create the pull request to make it public.
+You can make changes to config by adding/removing the stock as per NSE and BSE changes or create the customized config and create the pull request.
 
 Also there is "./src/config.json" in which UI related config are present.
 
-We love your input! We want to make contributing to this project as easy and transparent as possible.
+Inputs are always welcome! wheter it's.
 - Reporting a bug
 - Discussing the current state of the code
 - Submitting a fix
