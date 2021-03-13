@@ -28,7 +28,6 @@ import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import { CSVLink } from "react-csv";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import config from "./config.json"
-
 const axios = require('axios');
 
 
@@ -36,8 +35,8 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" href="#">
+        BhavCopy Downloader
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -50,6 +49,7 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    justifyContent: "center",
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
@@ -106,9 +106,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {
-    flexGrow: 1,
     height: '100vh',
-    overflow: 'auto',
   },
   container: {
     paddingTop: theme.spacing(4),
@@ -165,6 +163,8 @@ export default function Dashboard() {
   const handleRadioChange = (event) => {
     const exchange = event.target.value;
     setExchange(exchange);
+    setIndex("All")
+    setIndexData([])
     if (exchange === "bse") {
       setFund(config.bseFund[0])
       return
@@ -196,7 +196,7 @@ export default function Dashboard() {
       url: config.backendUrl + '/getbhavcopy',
       data: {
         "Date": getDate(),
-        "NSE50": indexData,
+        "Stocks": indexData,
         "Exchange": exchange.toUpperCase(),
         "Fund": fund
       }
@@ -220,7 +220,15 @@ export default function Dashboard() {
       <AppBar position="absolute" className={clsx(classes.appBar && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Dashboard
+
+            <img
+              href="#"
+              style={{ height: "35px" }}
+              src="./logo192.png"
+            /><span style={{
+              margin: "5px",
+              verticalAlign: "top"
+            }} >BhavCopy Downloader</span>
           </Typography>
           <IconButton color="inherit">
           </IconButton>
@@ -280,9 +288,15 @@ export default function Dashboard() {
                   <MenuItem value="All">
                     <em>All</em>
                   </MenuItem>
-                  {config.nseIndexs.map((index) => {
-                    return (<MenuItem value={index + ".json"}>{index}</MenuItem>)
-                  })}
+                  {
+                    exchange === "nse" ? config.nseIndexs.map((index) => {
+                      return (<MenuItem value={index + ".json"}>{index.replaceAll("_", " ")}</MenuItem>)
+                    }) :
+                      config.bseIndex.map((index) => {
+                        return (<MenuItem value={index + ".json"}>{index.replaceAll("_", " ")}</MenuItem>)
+                      })
+                  }
+
                 </Select>
               </FormControl>
             </Grid>
@@ -322,7 +336,7 @@ export default function Dashboard() {
           </Grid>
         </Grid>
         <Grid container spacing={1} style={{ padding: "20px" }}>
-          <TextareaAutosize style={{ width: "100%", height: "360px" }} aria-label="maximum height"
+          <TextareaAutosize style={{ width: "100%", height: "360px", fontSize: "large", overflow: "none" }} aria-label="maximum height"
             value={indexData}
             onChange={handleTextChange}
             placeholder="" />

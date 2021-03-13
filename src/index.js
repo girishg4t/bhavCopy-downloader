@@ -3,10 +3,25 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import Dashboard from './Dashboard';
 import reportWebVitals from './reportWebVitals';
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
+// import { lightGreen } from '@material-ui/core/colors';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      // Purple and green play nicely together.
+      main: '#205F68',
+      contrastText: '#fff',
+    },
+  },
+});
 
 ReactDOM.render(
   <React.StrictMode>
-    <Dashboard />
+    <ThemeProvider theme={theme}>
+      <Dashboard />
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
