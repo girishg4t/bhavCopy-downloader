@@ -28,6 +28,7 @@ import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import { CSVLink } from "react-csv";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import config from "./config.json"
+import logo from "./logo192.png"
 const axios = require('axios');
 
 
@@ -222,9 +223,10 @@ export default function Dashboard() {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
 
             <img
+              alt="bhavcopy downloader"
               href="#"
               style={{ height: "35px" }}
-              src="./logo192.png"
+              src={logo}
             /><span style={{
               margin: "5px",
               verticalAlign: "top"

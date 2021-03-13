@@ -1,5 +1,5 @@
 {
-    "backendUrl": "http://localhost:8080",
+    "backendUrl": "https://bhavcopy-backend.herokuapp.com",
     "nseIndexs": [
         "AUTO",
         "BANK",
