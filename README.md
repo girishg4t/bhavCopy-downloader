@@ -103,7 +103,7 @@ npm start
 
 ## Contributing
 
-As you know that stocks in an index get change and keeping that up to date is not a one person job, that's why i have made all this configurable.
+As you know stocks in an index get change and keeping that up to date is not a one person job, that's why i have made all this configurable.
 There are 2 folders "./src/NSEIndexConfigs"  and "./src/BSEIndexConfigs" in which all the index stocks configuration are present eg. Auto, Nifty50, BSE100 etc.
 
 You can make changes to config by adding/removing the stock as per NSE and BSE changes or create the new/customized config and raise the pull request.

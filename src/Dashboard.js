@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -20,6 +20,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import "react-datepicker/dist/react-datepicker.css";
 import DateFnsUtils from '@date-io/date-fns';
+import ReactGA from 'react-ga';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -125,6 +126,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Dashboard() {
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  },[]);
   const [showProgress, setShowProgress] = useState(false)
   const csvLink = useRef()
   const classes = useStyles();
@@ -192,15 +196,20 @@ export default function Dashboard() {
   }
   function handleDownloadClick() {
     setShowProgress(true)
+    const data = {
+      "Date": getDate(),
+      "Stocks": indexData,
+      "Exchange": exchange.toUpperCase(),
+      "Fund": fund
+    }
+    ReactGA.event({
+      category: 'User',
+      action: 'Download clicked with data :' + JSON.stringify(data)
+    });
     axios({
       method: 'post',
       url: config.backendUrl + '/getbhavcopy',
-      data: {
-        "Date": getDate(),
-        "Stocks": indexData,
-        "Exchange": exchange.toUpperCase(),
-        "Fund": fund
-      }
+      data: data
     }).then(function (response) {
       setCsvResponse(response.data);
       csvLink.current.link.click();
