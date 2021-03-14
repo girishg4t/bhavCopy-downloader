@@ -1,2 +1,0 @@
-(this["webpackJsonpstocks-app"]=this["webpackJsonpstocks-app"]||[]).push([[41],{192:function(A){A.exports=JSON.parse('["APLAPOLLO","COALINDIA","HINDALCO","HINDCOPPER","HINDZINC","JSWSTEEL","JINDALSTEL","MOIL","MIDHANI","NMDC","NATIONALUM","RATNAMANI","SAIL","TATASTEEL","WELCORP"]')}}]);
-//# sourceMappingURL=41.13f15fc3.chunk.js.map

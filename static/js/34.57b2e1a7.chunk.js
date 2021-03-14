@@ -1,0 +1,2 @@
+(this["webpackJsonpstocks-app"]=this["webpackJsonpstocks-app"]||[]).push([[34],{186:function(O){O.exports=JSON.parse('["BATAINDIA","BLUESTARCO","CROMPTON","DIXON","HAVELLS","ORIENTELEC","RAJESHEXPO","RELAXO","SYMPHONY","TTKPRESTIG","TITAN","VGUARD","VIPIND","VOLTAS","WHIRLPOOL"]')}}]);
+//# sourceMappingURL=34.57b2e1a7.chunk.js.map
