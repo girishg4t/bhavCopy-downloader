@@ -6,7 +6,8 @@ import reportWebVitals from './reportWebVitals';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 // import { lightGreen } from '@material-ui/core/colors';
-
+import ReactGA from 'react-ga';
+ReactGA.initialize('UA-75936867-1');
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -16,7 +17,6 @@ const theme = createMuiTheme({
     },
   },
 });
-
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
