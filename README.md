@@ -8,7 +8,7 @@ BhavCopy downloader is a FREE NSE and BSE end of the day stocks data downloader.
 
 ### Flow:
 
-![Alt working](./BhavCopy-Downloader.png)
+![Alt working](./flow-diagram.png)
 #### Backend: 
 It is written in golang which makes an api call to NSE and BSE servers to get all stocks eod data. ones the data is received it is stored in this github repo nse and bse folder. Further reading of data is happened from this files if present else it get downloaded and stored. Based on the api request, the data is then send in csv format.
 
@@ -96,7 +96,7 @@ Current configured index are:
 
 ### In Action 
 
-![Alt working](./bhavcopy-downloader.gif)
+![Alt working](./working.gif)
 ### How to run
 
 ```sh
