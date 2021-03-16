@@ -6,7 +6,6 @@ import Box from '@material-ui/core/Box';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -128,7 +127,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Dashboard() {
   useEffect(() => {
     ReactGA.pageview(window.location.pathname + window.location.search);
-  },[]);
+  }, []);
   const [showProgress, setShowProgress] = useState(false)
   const csvLink = useRef()
   const classes = useStyles();
@@ -241,8 +240,11 @@ export default function Dashboard() {
               verticalAlign: "top"
             }} >BhavCopy Downloader</span>
           </Typography>
-          <IconButton color="inherit">
-          </IconButton>
+          <span>
+            <span> <a className="github-button" href="https://github.com/girishg4t/bhavCopy-downloader" data-size="large" aria-label="View girishg4t/bhavCopy-downloader on GitHub">View Source</a> {' '}</span>
+            <span> <a className="github-button" href="https://github.com/girishg4t/bhavCopy-downloader" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star girishg4t/bhavCopy-downloader on GitHub">Star</a>{' '}</span>
+            <a className="github-button" href="https://github.com/girishg4t/bhavCopy-downloader/fork" data-size="large" data-show-count="true" aria-label="Fork girishg4t/bhavCopy-downloader on GitHub">Fork</a>
+          </span>
         </Toolbar>
       </AppBar>
       <main className={classes.content}>
