@@ -1,6 +1,6 @@
 # BhavCopy Downloader
-Download NSE and BSE data free
-
+Download NSE and BSE data free  
+Here is the [blog](https://girishg4t.medium.com/get-free-nse-bse-data-bhavcopy-based-on-customizable-index-and-date-baa00e70027f) post for the same
 
 ![logo](./public/favicon.ico)
 
