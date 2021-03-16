@@ -4,14 +4,16 @@ Download NSE and BSE data free
 
 ![logo](./public/favicon.ico)
 
-BhavCopy downloader is a FREE NSE and BSE end of the day stocks data downloader. Since it connect to NSE and BSE server for getting the data it is considered as authentic. it can download daily as well as historical EOD data for the currently configured indexes. It is made simple, customizable, public and free, so that any one can download the data as per there need.
+BhavCopy downloader is a FREE NSE and BSE end of the day stocks data downloader. Since it connect to NSE and BSE server for getting the data it is considered as authentic. it can download daily as well as historical EOD data for the currently configured indexes. It is made simple, customizable, public and free, so any one can download the data as per there need. You can check the existing data in "./nse" and "./bse" folder which got downloaded so far.
 
-### Approach 
+### Flow:
+
+![Alt working](./BhavCopy-Downloader.png)
 #### Backend: 
-It is written in golang which makes an api call to NSE and BSE servers to get all stocks eod data. ones the data is received it is stored in AWS. Based on the api request, the data is then send in csv format.
+It is written in golang which makes an api call to NSE and BSE servers to get all stocks eod data. ones the data is received it is stored in this github repo nse and bse folder. Further reading of data is happened from this files if present else it get downloaded and stored. Based on the api request, the data is then send in csv format.
 
 #### Frontend:
-It is written in javascript react, which allows user's to download the data based on there selection, below are the steps user need to perform to get the data, default is all stock download. 
+It is written in javascript react, which allows user's to download the data based on there selection. Below are the steps user need to perform to get the data, default is all stock download. 
   
     
 1) Select the Stock Exchange from which the data is required eg. NSE/BSE
@@ -22,7 +24,7 @@ Current configured index are:
 <table>
   <tr>
     <td colspan="5">NSE</td>
-    <td>BSE</td>
+    <td colspan="5">BSE</td>
   </tr>
   <tr>
     <td colspan="5">"AUTO",
@@ -94,7 +96,7 @@ Current configured index are:
 
 ### In Action 
 
-![Alt Text](./bhavcopy-downloader.gif)
+![Alt working](./bhavcopy-downloader.gif)
 ### How to run
 
 ```sh
