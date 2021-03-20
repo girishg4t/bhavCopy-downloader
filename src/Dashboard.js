@@ -148,11 +148,11 @@ export default function Dashboard() {
       return;
     }
     if (exchange === "bse" || exchange === "") {
-      import('./BSEIndexConfigs/' + indexName).then((data) => {
+      import('../BSEIndexConfigs/' + indexName).then((data) => {
         setIndexData(data.default);
       });
     } else {
-      import('./NSEIndexConfigs/' + indexName).then((data) => {
+      import('../NSEIndexConfigs/' + indexName).then((data) => {
         setIndexData(data.default);
       });
     }
