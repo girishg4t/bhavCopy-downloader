@@ -1,2 +1,0 @@
-(this["webpackJsonpstocks-app"]=this["webpackJsonpstocks-app"]||[]).push([[40],{192:function(p){p.exports=JSON.parse('["DBCORP","DISHTV","HATHWAY","INOXLEISUR","JAGRAN","PVR","SUNTV","TVTODAY","TV18BRDCST","ZEEL"]')}}]);
-//# sourceMappingURL=40.8018b5e6.chunk.js.map

@@ -1,2 +1,0 @@
-(this["webpackJsonpstocks-app"]=this["webpackJsonpstocks-app"]||[]).push([[32],{184:function(A){A.exports=JSON.parse('["AMARAJABAT","ASHOKLEY","BAJAJ-AUTO","BALKRISIND","BHARATFORG","BOSCHLTD","EICHERMOT","EXIDEIND","HEROMOTOCO","MRF","M&M","MARUTI","MOTHERSUMI","TVSMOTOR","TATAMOTORS"]')}}]);
-//# sourceMappingURL=32.d8b18688.chunk.js.map
