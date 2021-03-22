@@ -17,13 +17,13 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
-import "react-datepicker/dist/react-datepicker.css";
 import DateFnsUtils from '@date-io/date-fns';
 import ReactGA from 'react-ga';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+import { isMobile } from 'react-device-detect';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import { CSVLink } from "react-csv";
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -54,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
+    display: isMobile ? 'inline' : 'flex',
   },
   toolbarIcon: {
     display: 'flex',
@@ -250,17 +251,15 @@ export default function Dashboard() {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Grid container spacing={1} style={{ margin: "20px" }}>
-          <Grid container spacing={3} style={{ flexWrap: "unset" }}>
-            <Grid item xs={3} style={{ alignSelf: "center" }}>
-              <FormControl component="fieldset">
-                <FormLabel component="legend">Stock Exchange</FormLabel>
-                <RadioGroup aria-label="exchange" name="exchange" value={exchange} onChange={handleRadioChange}>
-                  <div>
-                    <FormControlLabel value="nse" control={<Radio />} label="NSE" />
-                    <FormControlLabel value="bse" control={<Radio />} label="BSE" />
-                  </div>
-                </RadioGroup>
-              </FormControl>
+          <Grid container spacing={1} style={isMobile ? { flexWrap: "unset", display: "inline" } :
+            { flexWrap: "unset" }}>
+            <Grid item xs={3} style={{ maxWidth: "200px", paddingTop: "10px", flexWrap: "unset", alignSelf: "center" }}>
+              <FormLabel component="legend">Stock Exchange</FormLabel>
+              <RadioGroup aria-label="exchange" style={{ flexDirection: "inherit", flexWrap: "nowrap" }}
+                name="exchange" value={exchange} onChange={handleRadioChange}>
+                <FormControlLabel value="nse" control={<Radio />} label="NSE" />
+                <FormControlLabel value="bse" control={<Radio />} label="BSE" />
+              </RadioGroup>
             </Grid>
             <Grid item xs={3} style={{ alignSelf: "center" }}>
               <FormControl variant="outlined" className={classes.formControl}>
@@ -314,7 +313,7 @@ export default function Dashboard() {
               </FormControl>
             </Grid>
             <Grid item xs={3} style={{ alignSelf: "center" }}>
-              <FormControl variant="outlined" className={classes.formControl}>
+              <FormControl variant="outlined" className={classes.formControl} style={{ width: "250px" }}>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <Grid container>
                     <KeyboardDatePicker
@@ -342,13 +341,13 @@ export default function Dashboard() {
               <CSVLink
                 data={csvResponse}
                 filename={index ? exchange + "-" + index.split(".")[0] + "-" + getDateInFormat() + ".csv" : exchange + "-" + fileName + ".csv"}
-                className="hidden"
+                className="btn btn-primary"
                 ref={csvLink}
                 target="_blank" />
             </Grid>
           </Grid>
         </Grid>
-        <Grid container spacing={1} style={{ padding: "20px" }}>
+        <Grid spacing={1}>
           <TextareaAutosize style={{ width: "100%", height: "360px", fontSize: "large", overflow: "none" }} aria-label="maximum height"
             value={indexData}
             onChange={handleTextChange}
