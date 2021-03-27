@@ -67,9 +67,9 @@ func Downloadzip(obj config.Symboles) error {
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil || resp.StatusCode != 200 {
-		fmt.Println("Error in reading zip file " + string(resp.StatusCode))
+		fmt.Println("Error in reading zip file " + string(err.Error()))
 		fmt.Printf("err: %s", resp.Status)
-		os.Remove(config.LocalZipPath)
+		//os.Remove(config.LocalZipPath)
 		return errors.New("not Allowed")
 	}
 	defer resp.Body.Close()
@@ -79,7 +79,7 @@ func Downloadzip(obj config.Symboles) error {
 	// Create the file
 	out, err := os.Create(config.LocalZipPath)
 	if err != nil {
-		fmt.Println("Error in reading zip file")
+		fmt.Println("Error in creating zip file")
 		fmt.Printf("err: %s", err)
 	}
 	defer out.Close()
