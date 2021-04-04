@@ -302,10 +302,10 @@ export default function Dashboard() {
                   </MenuItem>
                   {
                     exchange === "nse" ? config.nseIndexs.map((index) => {
-                      return (<MenuItem value={index + ".json"}>{index.replaceAll("_", " ")}</MenuItem>)
+                      return (<MenuItem value={index + ".json"}>{index.replace(/_/g," ")}</MenuItem>)
                     }) :
                       config.bseIndex.map((index) => {
-                        return (<MenuItem value={index + ".json"}>{index.replaceAll("_", " ")}</MenuItem>)
+                        return (<MenuItem value={index + ".json"}>{index.replace(/_/g," ")}</MenuItem>)
                       })
                   }
 
