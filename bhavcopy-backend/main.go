@@ -14,11 +14,11 @@ import (
 	"github.com/girishg4t/bhavcopy-backend/pkg/dataProcessor"
 	"github.com/girishg4t/bhavcopy-backend/pkg/github"
 	"github.com/girishg4t/bhavcopy-backend/utils"
-	"github.com/julienschmidt/httprouter"
-	"github.com/rs/cors"
+	"github.com/gorilla/handlers"
+	"github.com/gorilla/mux"
 )
 
-func csvGenerator(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
+func csvGenerator(w http.ResponseWriter, req *http.Request) {
 	body, err := ioutil.ReadAll(req.Body)
 	if err != nil {
 		log.Printf("Error reading body: %v", err)
@@ -73,7 +73,7 @@ func csvGenerator(w http.ResponseWriter, req *http.Request, _ httprouter.Params)
 	w.Write(bytesBuffer.Bytes())
 }
 
-func welcome(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+func welcome(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "hello\n")
 }
 
@@ -83,13 +83,15 @@ func main() {
 	if port == "" {
 		log.Fatal("$PORT must be set")
 	}
-	router := httprouter.New()
-	router.GET("/", welcome)
-	router.POST("/getbhavcopy", csvGenerator)
+	router := mux.NewRouter()
+	router.HandleFunc("/", welcome).Methods("GET")
+	router.HandleFunc("/getbhavcopy", csvGenerator).Methods("POST")
 
-	handler := cors.Default().Handler(router)
+	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type"})
+	originsOk := handlers.AllowedOrigins([]string{os.Getenv("ORIGIN_ALLOWED")})
+	methodsOk := handlers.AllowedMethods([]string{"GET", "HEAD", "POST", "PUT", "OPTIONS"})
 
-	http.ListenAndServe(":8080", handler)
+	log.Fatal(http.ListenAndServe(":"+port, handlers.CORS(originsOk, headersOk, methodsOk)(router)))
 }
 
 func validateInput(obj config.Symboles) bool {
