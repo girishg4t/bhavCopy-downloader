@@ -52,6 +52,13 @@ func csvGenerator(w http.ResponseWriter, req *http.Request) {
 			w.Write([]byte{})
 			return
 		}
+		if strings.ToLower(obj.Exchange) == "nse" {
+			err = dataProcessor.DownloadDeliverableDataNSE()
+			if err != nil {
+				fmt.Printf("err: %s", err)
+			}
+		}
+
 		fmt.Println("Done downloading zip file nse")
 		csvData = dataProcessor.ReadZipfile()
 		fmt.Println("Done reading zip file nse")
@@ -63,6 +70,10 @@ func csvGenerator(w http.ResponseWriter, req *http.Request) {
 			log.Fatal(e)
 		}
 		e = os.Remove(config.LocalFilePath)
+		if e != nil {
+			log.Fatal(e)
+		}
+		e = os.Remove(config.LocalDeliverablePath)
 		if e != nil {
 			log.Fatal(e)
 		}

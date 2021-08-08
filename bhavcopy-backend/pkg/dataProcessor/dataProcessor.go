@@ -144,3 +144,35 @@ func ReadZipfile() [][]string {
 	}
 	return nil
 }
+
+func DownloadDeliverableDataNSE() error {
+	req, err := http.NewRequest("GET", exchangeConfig.DeliverableUrl, nil)
+	req.Header.Set("User-Agent", exchangeConfig.UserAgent)
+	req.Header.Set("Referer", exchangeConfig.Referer)
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil || resp.StatusCode != 200 {
+		fmt.Println("Error in reading deliverable data" + string(err.Error()))
+		fmt.Printf("err: %s", resp.Status)
+		return errors.New("not Allowed")
+	}
+	defer resp.Body.Close()
+
+	fmt.Println("Response status:", resp.Status)
+
+	// Create the file
+	out, err := os.Create(config.LocalDeliverablePath)
+	if err != nil {
+		fmt.Println("Error in creating zip file")
+		fmt.Printf("err: %s", err)
+	}
+	defer out.Close()
+
+	// Write the body to file
+	_, err = io.Copy(out, resp.Body)
+	if err != nil {
+		fmt.Printf("err: %s", err)
+	}
+
+	return nil
+}

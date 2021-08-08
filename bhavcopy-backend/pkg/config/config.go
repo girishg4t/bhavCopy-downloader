@@ -21,8 +21,9 @@ type Symboles struct {
 }
 
 type ExchangeConfig struct {
-	UserAgent string `json:"userAgent"`
-	Referer   string `json:"referer"`
+	UserAgent      string `json:"userAgent"`
+	Referer        string `json:"referer"`
+	DeliverableUrl string `json:"deliverable_url"`
 }
 
 var GitRepo string
@@ -39,8 +40,9 @@ var NSEURLAPI string
 var sess *session.Session
 
 var (
-	LocalFilePath string
-	LocalZipPath  string
+	LocalFilePath        string
+	LocalZipPath         string
+	LocalDeliverablePath string
 )
 
 //GetEnvWithKey : get env value
@@ -81,4 +83,5 @@ func GetSha() string {
 func GetFilePath(obj Symboles) {
 	LocalZipPath = "./Data/" + obj.Date + ".zip"
 	LocalFilePath = "./Data/" + obj.Date + ".csv"
+	LocalDeliverablePath = "./Data/Deliverable" + obj.Date + ".csv"
 }
