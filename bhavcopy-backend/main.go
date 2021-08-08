@@ -82,7 +82,11 @@ func csvGenerator(w http.ResponseWriter, req *http.Request) {
 		if e != nil {
 			log.Fatal(e)
 		}
+		if dd != nil {
+			csvData = conn.ReadIfFileExistsFromGit(obj)
+		}
 	}
+
 	bytesBuffer := dataProcessor.FilterCsvData(csvData, obj)
 	w.Header().Set("Content-Type", "text/csv")
 	w.Header().Set("Content-Disposition", "attachment;filename=TheCSVFileName.csv")
