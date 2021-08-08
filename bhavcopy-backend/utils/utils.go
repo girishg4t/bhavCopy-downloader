@@ -26,7 +26,7 @@ func ReadJSON(file string) ([]byte, error) {
 	return dat, err
 }
 
-func SaveCSV(data [][]string) error {
+func SaveCSV(data [][]string, dd [][]string) error {
 	file, err := os.Create(config.LocalFilePath)
 	if err != nil {
 		return err
@@ -35,15 +35,26 @@ func SaveCSV(data [][]string) error {
 
 	writer := csv.NewWriter(file)
 	defer writer.Flush()
-	dd := GetDeliverableData()
-	// Write header
-	header := append(data[0], "DELIV_QTY")
-	header = append(header, "DELIV_PER")
-	writer.Write(header)
-	for _, value := range data[1:] {
-		delQnt, delPer := findDeliverableData(value, dd[1:])
-		value = append(value, delQnt)
-		value = append(value, delPer)
+
+	if dd != nil {
+		// Write header
+		header := append(data[0], "DELIV_QTY")
+		header = append(header, "DELIV_PER")
+		writer.Write(header)
+
+		for _, value := range data[1:] {
+			delQnt, delPer := findDeliverableData(value, dd[1:])
+			value = append(value, delQnt)
+			value = append(value, delPer)
+			err := writer.Write(value)
+			if err != nil {
+				return err
+			}
+		}
+		return nil
+	}
+
+	for _, value := range data {
 		err := writer.Write(value)
 		if err != nil {
 			return err
@@ -53,7 +64,10 @@ func SaveCSV(data [][]string) error {
 }
 
 func GetDeliverableData() [][]string {
-	content, _ := ioutil.ReadFile(config.LocalDeliverablePath)
+	content, err := ioutil.ReadFile(config.LocalDeliverablePath)
+	if err != nil {
+		return nil
+	}
 	reader := csv.NewReader(strings.NewReader(string(content)))
 	csvDeliverableData, err := reader.ReadAll()
 	if err != nil {
@@ -65,15 +79,15 @@ func GetDeliverableData() [][]string {
 
 func findDeliverableData(cs []string, deliverableData [][]string) (string, string) {
 	for _, d := range deliverableData {
-		if trimAndToUpper(cs[0]) == trimAndToUpper(d[0]) &&
-			trimAndToUpper(cs[1]) == trimAndToUpper(d[1]) &&
-			trimAndToUpper(cs[10]) == trimAndToUpper(d[2]) {
-			return trimAndToUpper(d[13]), trimAndToUpper(d[14])
+		if TrimAndToUpper(cs[0]) == TrimAndToUpper(d[0]) &&
+			TrimAndToUpper(cs[1]) == TrimAndToUpper(d[1]) &&
+			TrimAndToUpper(cs[10]) == TrimAndToUpper(d[2]) {
+			return TrimAndToUpper(d[13]), TrimAndToUpper(d[14])
 		}
 	}
 	return "", ""
 }
 
-func trimAndToUpper(d string) string {
+func TrimAndToUpper(d string) string {
 	return strings.ToUpper(strings.Trim(d, " "))
 }

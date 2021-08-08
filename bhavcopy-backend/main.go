@@ -52,17 +52,22 @@ func csvGenerator(w http.ResponseWriter, req *http.Request) {
 			w.Write([]byte{})
 			return
 		}
+		var dd [][]string = nil
 		if strings.ToLower(obj.Exchange) == "nse" {
 			err = dataProcessor.DownloadDeliverableDataNSE()
 			if err != nil {
 				fmt.Printf("err: %s", err)
+			}
+			dd = utils.GetDeliverableData()
+			if strings.Replace(utils.TrimAndToUpper(dd[1][2]), "-", "", 2) != utils.TrimAndToUpper(obj.Date) {
+				dd = nil
 			}
 		}
 
 		fmt.Println("Done downloading zip file nse")
 		csvData = dataProcessor.ReadZipfile()
 		fmt.Println("Done reading zip file nse")
-		utils.SaveCSV(csvData)
+		utils.SaveCSV(csvData, dd)
 		conn.UpdateToGithub(obj)
 		fmt.Println("Done uploading to github")
 		e := os.Remove(config.LocalZipPath)
