@@ -1,0 +1,2 @@
+(this["webpackJsonpstocks-app"]=this["webpackJsonpstocks-app"]||[]).push([[60],{227:function(p){p.exports=JSON.parse('["BRIGADE","DLF","GODREJPROP","IBREALEST","OBEROIRLTY","OMAXE","PHOENIXLTD","PRESTIGE","SOBHA","SUNTECK"]')}}]);
+//# sourceMappingURL=60.8711b121.chunk.js.map

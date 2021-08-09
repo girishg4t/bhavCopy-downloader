@@ -1,0 +1,2 @@
+(this["webpackJsonpstocks-app"]=this["webpackJsonpstocks-app"]||[]).push([[58],{225:function(B){B.exports=JSON.parse('["AXISBANK","BANDHANBNK","CUB","FEDERALBNK","HDFCBANK","ICICIBANK","IDFCFIRSTB","INDUSINDBK","KOTAKBANK","RBLBANK"]')}}]);
+//# sourceMappingURL=58.bffea705.chunk.js.map

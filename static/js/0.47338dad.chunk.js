@@ -1,2 +1,0 @@
-(this["webpackJsonpstocks-app"]=this["webpackJsonpstocks-app"]||[]).push([[0],{153:function(p){p.exports=JSON.parse('["500008","500477","532977","502355","500530","505200","500495","500086","500182","500520","532500","517334","500290","500570","532343"]')}}]);
-//# sourceMappingURL=0.47338dad.chunk.js.map
