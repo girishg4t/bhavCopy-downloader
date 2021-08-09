@@ -38,7 +38,7 @@ func FilterCsvData(csvData [][]string, obj config.Symboles) *bytes.Buffer {
 	}
 	if obj.Exchange == "NSE" {
 		for _, each := range csvData[1:] {
-			if !utils.Contains(each[0], obj.Stocks) || obj.Fund[0:2] != each[1] {
+			if !utils.Contains(each[0], obj.Stocks) {
 				continue
 			}
 			wr.Write(each)
