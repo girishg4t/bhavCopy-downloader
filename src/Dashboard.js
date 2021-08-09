@@ -29,6 +29,7 @@ import { CSVLink } from "react-csv";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import config from "./config.json"
 import logo from "./logo192.png"
+import MultiSelect from './MultiSelect';
 const axios = require('axios');
 
 
@@ -223,6 +224,13 @@ export default function Dashboard() {
   function handlefundChange(e) {
     setFund(e.target.value)
   }
+  function handleSelect(values) {
+    let selectedStocks = []
+    values.forEach((value) => {
+      selectedStocks.push(value.name.trim()) ;
+    })
+    setIndexData(selectedStocks)
+  }
   const fileName = getDateInFormat();
   return (
     <div className={classes.root}>
@@ -295,7 +303,7 @@ export default function Dashboard() {
                   defaultValue=""
                   onChange={handleIndexChange}
                   label="Select Indices"
-                  style={{ width: "250px" }}
+                  style={{ width: "250px", height: "32px" }}
                 >
                   <MenuItem value="All">
                     <em>All</em>
@@ -311,6 +319,7 @@ export default function Dashboard() {
 
                 </Select>
               </FormControl>
+              <MultiSelect handleSelect={handleSelect} />
             </Grid>
             <Grid item xs={3} style={{ alignSelf: "center" }}>
               <FormControl variant="outlined" className={classes.formControl} style={{ width: "250px" }}>
