@@ -1,2 +1,0 @@
-(this["webpackJsonpstocks-app"]=this["webpackJsonpstocks-app"]||[]).push([[57],{224:function(p){p.exports=JSON.parse('["ALKEM","AUROPHARMA","BIOCON","CADILAHC","CIPLA","DIVISLAB","DRREDDY","LUPIN","SUNPHARMA","TORNTPHARM"]')}}]);
-//# sourceMappingURL=57.55db99ca.chunk.js.map
