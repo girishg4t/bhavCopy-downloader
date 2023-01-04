@@ -1,5 +1,5 @@
 {
-    "backendUrl": "https://bhavcopy-backend.herokuapp.com",
+    "backendUrl": "https://bhavcopy-backend.fly.dev",
     "nseIndexs": [
         "AUTO",
         "BANK",
