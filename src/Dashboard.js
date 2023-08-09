@@ -207,7 +207,7 @@ export default function Dashboard() {
       category: 'User',
       action: 'Download clicked with data :' + JSON.stringify(data)
     });
-    if (fund != "OPTIONS") {
+    if (fund !== "OPTIONS") {
       axios({
         method: 'post',
         url: config.backendUrl + '/getbhavcopy',
