@@ -207,18 +207,33 @@ export default function Dashboard() {
       category: 'User',
       action: 'Download clicked with data :' + JSON.stringify(data)
     });
-    axios({
-      method: 'post',
-      url: config.backendUrl + '/getbhavcopy',
-      data: data
-    }).then(function (response) {
-      setCsvResponse(response.data);
-      csvLink.current.link.click();
-      setShowProgress(false)
-    }).catch(function (error) {
-      console.log(error);
-      setShowProgress(false)
-    })
+    if (fund != "OPTIONS") {
+      axios({
+        method: 'post',
+        url: config.backendUrl + '/getbhavcopy',
+        data: data
+      }).then(function (response) {
+        setCsvResponse(response.data);
+        csvLink.current.link.click();
+        setShowProgress(false)
+      }).catch(function (error) {
+        console.log(error);
+        setShowProgress(false)
+      })
+    } else {
+      axios({
+        method: 'post',
+        url: config.backendUrl + '/optionChain?symbol=BANKNIFTY',
+        data: data
+      }).then(function (response) {
+        exportToJson(response.data, "OptionChain_" + data["Date"] + ".json");
+        setShowProgress(false)
+      }).catch(function (error) {
+        console.log(error);
+        setShowProgress(false)
+      })
+    }
+
   }
   const [fund, setFund] = useState(config.nseFund[0])
   function handlefundChange(e) {
@@ -227,7 +242,7 @@ export default function Dashboard() {
   function handleSelect(values) {
     let selectedStocks = []
     values.forEach((value) => {
-      selectedStocks.push(value.name.trim()) ;
+      selectedStocks.push(value.name.trim());
     })
     setIndexData(selectedStocks)
   }
@@ -310,10 +325,10 @@ export default function Dashboard() {
                   </MenuItem>
                   {
                     exchange === "nse" ? config.nseIndexs.map((index) => {
-                      return (<MenuItem value={index + ".json"}>{index.replace(/_/g," ")}</MenuItem>)
+                      return (<MenuItem value={index + ".json"}>{index.replace(/_/g, " ")}</MenuItem>)
                     }) :
                       config.bseIndex.map((index) => {
-                        return (<MenuItem value={index + ".json"}>{index.replace(/_/g," ")}</MenuItem>)
+                        return (<MenuItem value={index + ".json"}>{index.replace(/_/g, " ")}</MenuItem>)
                       })
                   }
 
@@ -368,4 +383,20 @@ export default function Dashboard() {
       </main>
     </div>
   );
+}
+
+function exportToJson(objectData, filename) {
+  let contentType = "application/json;charset=utf-8;";
+  if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+    var blob = new Blob([decodeURIComponent(encodeURI(JSON.stringify(objectData)))], { type: contentType });
+    navigator.msSaveOrOpenBlob(blob, filename);
+  } else {
+    var a = document.createElement('a');
+    a.download = filename;
+    a.href = 'data:' + contentType + ',' + encodeURIComponent(JSON.stringify(objectData));
+    a.target = '_blank';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
 }
