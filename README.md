@@ -107,7 +107,7 @@ Current configured index are:
 
 OPTIONS Data
 
-![Alt working](./options.gif)
+![Alt working](./options_new.gif)
 ### How to run
 
 ```sh
