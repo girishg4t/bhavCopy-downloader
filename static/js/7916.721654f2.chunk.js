@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkstocks_app=self.webpackChunkstocks_app||[]).push([[7916],{7916:function(s){s.exports=JSON.parse('["ATGL","AEGISCHEM","BPCL","CASTROLIND","GAIL","GUJGASLTD","GSPL","HINDPETRO","IOC","IGL","MGL","ONGC","OIL","PETRONET","RELIANCE"]')}}]);

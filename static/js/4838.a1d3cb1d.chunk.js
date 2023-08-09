@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkstocks_app=self.webpackChunkstocks_app||[]).push([[4838],{4838:function(s){s.exports=JSON.parse('["COFORGE","HCLTECH","NAUKRI","INFY","LTI","MINDTREE","MPHASIS","TCS","TECHM","WIPRO"]')}}]);

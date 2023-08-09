@@ -1,2 +1,0 @@
-(this["webpackJsonpstocks-app"]=this["webpackJsonpstocks-app"]||[]).push([[56],{166:function(p){p.exports=JSON.parse('["ATGL","AEGISCHEM","BPCL","CASTROLIND","GAIL","GUJGASLTD","GSPL","HINDPETRO","IOC","IGL","MGL","ONGC","OIL","PETRONET","RELIANCE"]')}}]);
-//# sourceMappingURL=56.ba2d73c0.chunk.js.map

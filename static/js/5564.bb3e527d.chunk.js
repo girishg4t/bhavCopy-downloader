@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkstocks_app=self.webpackChunkstocks_app||[]).push([[5564],{5564:function(I){I.exports=JSON.parse('["AXISBANK","BAJFINANCE","BAJAJFINSV","BAJAJHLDNG","CHOLAFIN","HDFCAMC","HDFCBANK","HDFCLIFE","HDFC","ICICIBANK","ICICIGI","ICICIPRULI","KOTAKBANK","M&MFIN","PEL","PFC","RECLTD","SBILIFE","SRTRANSFIN","SBIN"]')}}]);

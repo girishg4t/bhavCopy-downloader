@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkstocks_app=self.webpackChunkstocks_app||[]).push([[7692],{7692:function(s){s.exports=JSON.parse('["DBCORP","DISHTV","HATHWAY","INOXLEISUR","JAGRAN","PVR","SUNTV","TVTODAY","TV18BRDCST","ZEEL"]')}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkstocks_app=self.webpackChunkstocks_app||[]).push([[5383],{5383:function(A){A.exports=JSON.parse('["APLAPOLLO","COALINDIA","HINDALCO","HINDCOPPER","HINDZINC","JSWSTEEL","JINDALSTEL","MOIL","MIDHANI","NMDC","NATIONALUM","RATNAMANI","SAIL","TATASTEEL","WELCORP"]')}}]);
