@@ -11,7 +11,7 @@ BhavCopy downloader is a FREE NSE and BSE end of the day stocks data downloader.
 - Can select different funds like Equities, options chain etc.
 - Can select different index from NSE and BSE like NIFTY50, BSE100 etc.
 - Get back date data
-- Api is public any one can use directly, https://bhavcopy-backend.fly.
+- Api is public any one can use directly, [https://bhavcopy-backend.fly.dev](https://bhavcopy-backend.fly.dev/)
 
 ### Flow:
 
@@ -107,7 +107,7 @@ Current configured index are:
 
 OPTIONS Data
 
-![Alt working](./options_new.gif)
+![Alt working](./option.gif)
 ### How to run
 
 ```sh
