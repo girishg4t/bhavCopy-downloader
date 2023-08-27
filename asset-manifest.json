@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/bhavCopy-downloader/static/css/main.e6c13ad2.css",
-    "main.js": "/bhavCopy-downloader/static/js/main.d2a0a14a.js",
+    "main.js": "/bhavCopy-downloader/static/js/main.802b428f.js",
     "static/js/576.71811d68.chunk.js": "/bhavCopy-downloader/static/js/576.71811d68.chunk.js",
     "static/js/3269.5e34e26c.chunk.js": "/bhavCopy-downloader/static/js/3269.5e34e26c.chunk.js",
     "static/js/2645.05b8e387.chunk.js": "/bhavCopy-downloader/static/js/2645.05b8e387.chunk.js",
@@ -66,11 +66,11 @@
     "static/js/787.67a711b6.chunk.js": "/bhavCopy-downloader/static/js/787.67a711b6.chunk.js",
     "index.html": "/bhavCopy-downloader/index.html",
     "main.e6c13ad2.css.map": "/bhavCopy-downloader/static/css/main.e6c13ad2.css.map",
-    "main.d2a0a14a.js.map": "/bhavCopy-downloader/static/js/main.d2a0a14a.js.map",
+    "main.802b428f.js.map": "/bhavCopy-downloader/static/js/main.802b428f.js.map",
     "787.67a711b6.chunk.js.map": "/bhavCopy-downloader/static/js/787.67a711b6.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.d2a0a14a.js"
+    "static/js/main.802b428f.js"
   ]
 }
