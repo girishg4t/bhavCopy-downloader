@@ -140,7 +140,9 @@ export default function Dashboard() {
   const [csvResponse, setCsvResponse] = useState([]);
   const [indexData, setIndexData] = useState([]);
   const handleDateChange = (date) => {
-    setSelectedDate(date);
+    if (date instanceof Date) {
+      setSelectedDate(date);
+    }
   };
   function handleIndexChange(e) {
     const indexName = e.target.value
