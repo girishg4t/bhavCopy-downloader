@@ -367,7 +367,7 @@ export default function Dashboard() {
               {showProgress ? <CircularProgress /> : <div />}
               <CSVLink
                 data={csvResponse}
-                filename={index ? exchange + "-" + index.split(".")[0] + "-" + getDateInFormat() + ".csv" : exchange + "-" + fileName + ".csv"}
+                filename={index ? exchange + "-" + index.split(".")[0] + "-" + fileName + ".csv" : exchange + "-" + fileName + ".csv"}
                 className="btn btn-primary"
                 ref={csvLink}
                 target="_blank" />
