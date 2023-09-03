@@ -166,7 +166,7 @@ export default function Dashboard() {
   function getDateInFormat() {
     return selectedDate.toLocaleDateString('en-GB', {
 		year: 'numeric', month: 'numeric', day: 'numeric'
-    }).replaceAll('/', '-')
+    }).split('/').reverse().join('-')
   }
   const handleRadioChange = (event) => {
     const exchange = event.target.value;
