@@ -165,8 +165,8 @@ export default function Dashboard() {
   const [exchange, setExchange] = React.useState('nse');
   function getDateInFormat() {
     return selectedDate.toLocaleDateString('en-GB', {
-      day: '2-digit', month: 'short', year: 'numeric'
-    }).replace(/ /g, '-')
+		year: 'numeric', month: 'numeric', day: 'numeric'
+    }).split('/').reverse().join('-')
   }
   const handleRadioChange = (event) => {
     const exchange = event.target.value;
@@ -320,7 +320,7 @@ export default function Dashboard() {
                   defaultValue=""
                   onChange={handleIndexChange}
                   label="Select Indices"
-                  style={{ width: "250px", height: "32px" }}
+                  style={{ width: "250px" }}
                 >
                   <MenuItem value="All">
                     <em>All</em>
@@ -345,9 +345,10 @@ export default function Dashboard() {
                     <KeyboardDatePicker
                       disableToolbar
                       variant="inline"
-                      format="MM/dd/yyyy"
+                      format="yyyy/MM/dd"
                       margin="normal"
                       id="date-picker-inline"
+					  placeholder='YYYY/MM/DD'
                       label="Date"
                       value={selectedDate}
                       onChange={handleDateChange}
@@ -366,7 +367,7 @@ export default function Dashboard() {
               {showProgress ? <CircularProgress /> : <div />}
               <CSVLink
                 data={csvResponse}
-                filename={index ? exchange + "-" + index.split(".")[0] + "-" + getDateInFormat() + ".csv" : exchange + "-" + fileName + ".csv"}
+                filename={index ? exchange + "-" + index.split(".")[0] + "-" + fileName + ".csv" : exchange + "-" + fileName + ".csv"}
                 className="btn btn-primary"
                 ref={csvLink}
                 target="_blank" />
