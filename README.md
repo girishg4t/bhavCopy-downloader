@@ -5,7 +5,7 @@ Download NSE and BSE data free, Here is the [blog](https://girishg4t.github.io/2
 
 BhavCopy downloader is a FREE NSE and BSE end of the day stocks data downloader. Since it connect to NSE and BSE server for getting the data it is considered as authentic. it can download daily as well as historical EOD data for the currently configured indexes. It is made simple, customizable, public and free, so any one can download the data as per there need. You can check the existing data in "./nse" and "./bse" folder which got downloaded so far.
 
-### Feathers:
+### Features:
 - Download EOD data for both the index NSE and BSE with delivered quantity and delivered quantity percentage
 - Download OPTIONS data from NSE
 - Can select different funds like Equities, options chain etc.
