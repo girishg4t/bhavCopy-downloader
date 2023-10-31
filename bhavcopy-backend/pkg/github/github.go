@@ -39,6 +39,10 @@ func ConnectToGit(obj config.Symboles) *GitConnection {
 	tc := oauth2.NewClient(ctx, ts)
 	filename := obj.Date + ".csv"
 	filePath := config.NSEDrive + "/" + filename
+	if obj.Fund == "OPTIONS" {
+		filename = obj.Date + ".json"
+		filePath = config.OPTIONSDRIVE + "/" + strings.ToUpper(config.NSEDrive) + "/" + filename
+	}
 	if obj.Exchange == "BSE" {
 		filePath = config.BSEDrive + "/" + filename
 	}
@@ -77,6 +81,25 @@ func (conn *GitConnection) UpdateToGithub(obj config.Symboles) {
 	fmt.Printf(*resp.Message)
 }
 
+func (conn *GitConnection) UpdateToGithubOptions(content []byte, obj config.Symboles) {
+	message := "Added data for " + conn.serverFilepath
+	sha := config.GetSha()
+	repositoryContentsOptions := &github.RepositoryContentFileOptions{
+		Message: &message,
+		Content: content,
+		SHA:     &sha,
+		Committer: &github.CommitAuthor{Name: github.String(conn.user),
+			Email: github.String(conn.email)},
+	}
+	resp, _, err := conn.client.Repositories.UpdateFile(conn.ctx, conn.user, conn.repo,
+		conn.serverFilepath, repositoryContentsOptions)
+	if err != nil {
+		exitErrorf("Unable to upload %q to %q, %v", obj.Date, conn.serverFilepath, err.Error())
+	}
+
+	fmt.Printf(*resp.Message)
+}
+
 func (conn *GitConnection) ReadIfFileExistsFromGit(obj config.Symboles) [][]string {
 	repos, _, _, err := conn.client.Repositories.GetContents(conn.ctx, conn.user, conn.repo,
 		conn.serverFilepath, &github.RepositoryContentGetOptions{})
@@ -97,4 +120,21 @@ func (conn *GitConnection) ReadIfFileExistsFromGit(obj config.Symboles) [][]stri
 		return nil
 	}
 	return csvData
+}
+
+func (conn *GitConnection) ReadIfFileExistsFromGitOptions(obj config.Symboles) []byte {
+	repos, _, _, err := conn.client.Repositories.GetContents(conn.ctx, conn.user, conn.repo,
+		conn.serverFilepath, &github.RepositoryContentGetOptions{})
+	if err != nil {
+		fmt.Println("Error", err)
+		return nil
+	}
+
+	c, err := base64.StdEncoding.DecodeString(*repos.Content)
+	if err != nil {
+		fmt.Println("Error", err)
+		return nil
+	}
+
+	return c
 }

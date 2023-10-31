@@ -35,9 +35,11 @@ var BSEDrive string
 var GitAccessToken string
 var BSEURL string
 var NSEURL string
+var NSEOPTIONURL string
 var BSEURLAPI string
 var NSEURLAPI string
 var sess *session.Session
+var OPTIONSDRIVE string
 
 var (
 	LocalFilePath        string
@@ -45,7 +47,7 @@ var (
 	LocalDeliverablePath string
 )
 
-//GetEnvWithKey : get env value
+// GetEnvWithKey : get env value
 func GetEnvWithKey(key string) string {
 	return os.Getenv(key)
 }
@@ -69,6 +71,8 @@ func LoadEnv() {
 	NSEURL = GetEnvWithKey("NSE_URL")
 	BSEURLAPI = GetEnvWithKey("BSE_URL_API")
 	NSEURLAPI = GetEnvWithKey("NSE_URL_API")
+	OPTIONSDRIVE = GetEnvWithKey("OPTIONS_DRIVE")
+	NSEOPTIONURL = GetEnvWithKey("NSE_OPTION_URL")
 
 }
 

@@ -93,6 +93,60 @@ func csvGenerator(w http.ResponseWriter, req *http.Request) {
 	w.Write(bytesBuffer.Bytes())
 }
 
+func optionsGenerator(w http.ResponseWriter, req *http.Request) {
+	body, err := ioutil.ReadAll(req.Body)
+	if err != nil {
+		log.Printf("Error reading body: %v", err)
+		http.Error(w, "can't read body", http.StatusBadRequest)
+		return
+	}
+	symbol := req.URL.Query().Get("symbol")
+	var obj config.Symboles
+	fmt.Println(symbol)
+	if err := json.Unmarshal(body, &obj); err != nil {
+		fmt.Printf("err: %s", err)
+	}
+	obj.Date = strings.ToUpper(obj.Date)
+	if !validateInput(obj) {
+		fmt.Fprintf(w, "Not a valid date format, it should be in ddMMMYYYY format, eg. 02Mar2020")
+	}
+	fmt.Println("api Parameter is correct")
+	config.LoadEnv()
+	conn := github.ConnectToGit(obj)
+	fmt.Println("Read env variable")
+
+	jsonData := conn.ReadIfFileExistsFromGitOptions(obj)
+
+	if jsonData == nil {
+		fmt.Println(obj.Date + " File not in git")
+		config.GetFilePath(obj)
+
+		dat, _ := utils.ReadJSON("./config/nse.json")
+		var exchangeConfig config.ExchangeConfig
+		_ = json.Unmarshal(dat, &exchangeConfig)
+
+		req, _ := http.NewRequest("GET", fmt.Sprintf("%s?symbol=%s", config.NSEOPTIONURL, symbol), nil)
+		req.Header.Add("Host", "www.nseindia.com")
+		req.Header.Add("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36")
+
+		client := &http.Client{}
+		resp, err := client.Do(req)
+		if err != nil || resp.StatusCode != 200 {
+			fmt.Println(err.Error())
+			w.Header().Set("Content-Type", "application/json")
+			return
+		}
+
+		defer resp.Body.Close()
+		jsonData, _ = ioutil.ReadAll(resp.Body)
+		fmt.Println("Done downloading zip file nse")
+		conn.UpdateToGithubOptions(jsonData, obj)
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	_, _ = w.Write(jsonData)
+}
+
 func welcome(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "hello\n")
 }
@@ -106,6 +160,7 @@ func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/", welcome).Methods("GET")
 	router.HandleFunc("/getbhavcopy", csvGenerator).Methods("POST")
+	router.HandleFunc("/optionchain", optionsGenerator).Methods("POST")
 
 	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type"})
 	originsOk := handlers.AllowedOrigins([]string{os.Getenv("ORIGIN_ALLOWED")})
