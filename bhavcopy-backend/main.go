@@ -54,14 +54,12 @@ func csvGenerator(w http.ResponseWriter, req *http.Request) {
 		}
 		var dd [][]string = nil
 		if strings.ToLower(obj.Exchange) == "nse" {
-			err = dataProcessor.DownloadDeliverableDataNSE()
+			ddDate := obj.Date[0:2] + config.MonthMapping[obj.Date[2:5]] + obj.Date[5:9]
+			err = dataProcessor.DownloadDeliverableDataNSE(ddDate)
 			if err != nil {
 				fmt.Printf("err: %s", err)
 			}
 			dd = utils.GetDeliverableData()
-			if strings.Replace(utils.TrimAndToUpper(dd[1][2]), "-", "", 2) != utils.TrimAndToUpper(obj.Date) {
-				dd = nil
-			}
 		}
 
 		fmt.Println("Done downloading zip file nse")

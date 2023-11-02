@@ -19,13 +19,6 @@ import (
 )
 
 var exchangeConfig config.ExchangeConfig
-var monthMapping = map[string]string{
-	"JAN": "01", "FEB": "02",
-	"MAR": "03", "APR": "04", "MAY": "05",
-	"JUN": "06", "JULY": "07", "AUG": "08",
-	"SEP": "09", "OCT": "10", "NOV": "11",
-	"DEC": "12",
-}
 
 func FilterCsvData(csvData [][]string, obj config.Symboles) *bytes.Buffer {
 	b := &bytes.Buffer{} // creates IO Writer
@@ -108,7 +101,7 @@ func ReadIndicesConfig(obj config.Symboles) string {
 	if obj.Exchange == "BSE" {
 		dat, _ := utils.ReadJSON("./config/bse.json")
 		json.Unmarshal(dat, &exchangeConfig)
-		api := fmt.Sprintf(config.BSEURLAPI, obj.Date[0:2]+monthMapping[obj.Date[2:5]]+obj.Date[7:9])
+		api := fmt.Sprintf(config.BSEURLAPI, obj.Date[0:2]+config.MonthMapping[obj.Date[2:5]]+obj.Date[7:9])
 		url := config.BSEURL + obj.Fund + "/" + api
 		fmt.Println("BSE url " + url)
 		return url
@@ -145,9 +138,10 @@ func ReadZipfile() [][]string {
 	return nil
 }
 
-func DownloadDeliverableDataNSE() error {
-	req, err := http.NewRequest("GET", exchangeConfig.DeliverableUrl, nil)
-	req.Header.Set("User-Agent", exchangeConfig.UserAgent)
+func DownloadDeliverableDataNSE(date string) error {
+	url := fmt.Sprintf("%s/sec_bhavdata_full_%s.csv", exchangeConfig.DeliverableUrl, date)
+	req, err := http.NewRequest("GET", url, nil)
+	req.Header.Add("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36")
 	req.Header.Set("Referer", exchangeConfig.Referer)
 	client := &http.Client{}
 	resp, err := client.Do(req)
