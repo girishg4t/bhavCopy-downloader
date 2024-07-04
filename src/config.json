@@ -1,5 +1,5 @@
 {
-    "backendUrl": "https://bhavcopy-backend.fly.dev",
+    "backendUrl": "https://bhavcopy-downloader.onrender.com",
     "nseIndexs": [
         "AUTO",
         "BANK",

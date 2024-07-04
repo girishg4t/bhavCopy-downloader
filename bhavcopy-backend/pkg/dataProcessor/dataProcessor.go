@@ -141,13 +141,11 @@ func ReadZipfile() [][]string {
 func DownloadDeliverableDataNSE(date string) error {
 	url := fmt.Sprintf("%s/sec_bhavdata_full_%s.csv", exchangeConfig.DeliverableUrl, date)
 	req, err := http.NewRequest("GET", url, nil)
-	req.Header.Add("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36")
-	req.Header.Set("Referer", exchangeConfig.Referer)
+	req.Header.Add("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36")
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil || resp.StatusCode != 200 {
 		fmt.Println("Error in reading deliverable data" + string(err.Error()))
-		fmt.Printf("err: %s", resp.Status)
 		return errors.New("not Allowed")
 	}
 	defer resp.Body.Close()
