@@ -11,7 +11,7 @@ import (
 	"github.com/moby/buildkit/session"
 )
 
-const RegexDate = `^(([0-9])|([0-2][0-9])|([3][0-1]))(JAN|FEB|MAR|APR|MAY|JUN|JULY|AUG|SEP|OCT|NOV|DEC)\d{4}$`
+const RegexDate = `^(([0-9])|([0-2][0-9])|([3][0-1]))(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)\d{4}$`
 
 type Symboles struct {
 	Stocks   []string `json:"Stocks"`
