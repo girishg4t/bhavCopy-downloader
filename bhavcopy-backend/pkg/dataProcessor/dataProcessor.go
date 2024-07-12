@@ -10,6 +10,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"net/http/httputil"
 	"os"
 	"time"
 
@@ -149,6 +150,13 @@ func DownloadDeliverableDataNSE(date string) error {
 	req.Header.Add("sec-ch-ua-mobile", "?0")
 	req.Header.Add("sec-ch-ua-platform", "\"macOS\"")
 	client := &http.Client{}
+	reqDump, err := httputil.DumpRequestOut(req, true)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("REQUEST:\n%s", string(reqDump))
+
 	resp, err := client.Do(req)
 	if err != nil || resp.StatusCode != 200 {
 		fmt.Println("Error in reading deliverable data" + string(err.Error()))
