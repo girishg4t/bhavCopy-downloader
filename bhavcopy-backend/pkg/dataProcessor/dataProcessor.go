@@ -11,7 +11,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"strings"
 	"time"
 
 	"github.com/girishg4t/bhavcopy-backend/pkg/config"
@@ -55,8 +54,11 @@ func Downloadzip(obj config.Symboles) error {
 		return errors.New("invalid input")
 	}
 	req, err := http.NewRequest("GET", s, nil)
-	req.Header.Set("User-Agent", exchangeConfig.UserAgent)
-	req.Header.Set("Referer", exchangeConfig.Referer)
+	req.Header.Add("Upgrade-Insecure-Requests", "1")
+	req.Header.Add("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36")
+	req.Header.Add("sec-ch-ua", "\"Google Chrome\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\"")
+	req.Header.Add("sec-ch-ua-mobile", "?0")
+	req.Header.Add("sec-ch-ua-platform", "\"macOS\"")
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil || resp.StatusCode != 200 {
@@ -93,8 +95,8 @@ func ReadIndicesConfig(obj config.Symboles) string {
 	if obj.Exchange == "" || obj.Exchange == "NSE" {
 		dat, _ := utils.ReadJSON("./config/nse.json")
 		json.Unmarshal(dat, &exchangeConfig)
-		api := fmt.Sprintf(config.NSEURLAPI, strings.ToUpper(t.Format("02Jan2006")))
-		url := config.NSEURL + obj.Fund + "/" + obj.Date[5:9] + "/" + strings.ToUpper(obj.Date[2:5]) + "/" + api
+		//api := fmt.Sprintf(config.NSEURLAPI, strings.ToUpper(t.Format("02Jan2006")))
+		url := config.NSEURL + "sec_bhavdata_full_" + obj.Date[0:2] + config.MonthMapping[obj.Date[2:5]] + obj.Date[5:9] + ".csv"
 		fmt.Println("NSE url " + url)
 		return url
 	}

@@ -45,13 +45,13 @@ func csvGenerator(w http.ResponseWriter, req *http.Request) {
 	if csvData == nil {
 		fmt.Println(obj.Date + " File not in git")
 		config.GetFilePath(obj)
-		err = dataProcessor.Downloadzip(obj)
-		if err != nil {
-			w.Header().Set("Content-Type", "text/csv")
-			w.Header().Set("Content-Disposition", "attachment;filename=TheCSVFileName.csv")
-			w.Write([]byte{})
-			return
-		}
+		// err = dataProcessor.Downloadzip(obj)
+		// if err != nil {
+		// 	w.Header().Set("Content-Type", "text/csv")
+		// 	w.Header().Set("Content-Disposition", "attachment;filename=TheCSVFileName.csv")
+		// 	w.Write([]byte{})
+		// 	return
+		// }
 		var dd [][]string = nil
 		if strings.ToLower(obj.Exchange) == "nse" {
 			ddDate := obj.Date[0:2] + config.MonthMapping[obj.Date[2:5]] + obj.Date[5:9]
@@ -62,10 +62,10 @@ func csvGenerator(w http.ResponseWriter, req *http.Request) {
 			dd = utils.GetDeliverableData()
 		}
 
-		fmt.Println("Done downloading zip file nse")
-		csvData = dataProcessor.ReadZipfile()
-		fmt.Println("Done reading zip file nse")
-		utils.SaveCSV(csvData, dd)
+		// fmt.Println("Done downloading zip file nse")
+		// csvData = dataProcessor.ReadZipfile()
+		//fmt.Println("Done reading zip file nse")
+		utils.SaveCSV(dd, nil)
 		conn.UpdateToGithub(obj)
 		fmt.Println("Done uploading to github")
 		e := os.Remove(config.LocalZipPath)
