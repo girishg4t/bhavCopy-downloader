@@ -68,17 +68,14 @@ func csvGenerator(w http.ResponseWriter, req *http.Request) {
 		utils.SaveCSV(dd, nil)
 		conn.UpdateToGithub(obj)
 		fmt.Println("Done uploading to github")
-		e := os.Remove(config.LocalZipPath)
+
+		e := os.Remove(config.LocalFilePath)
 		if e != nil {
-			log.Fatal(e)
-		}
-		e = os.Remove(config.LocalFilePath)
-		if e != nil {
-			log.Fatal(e)
+			log.Print(e)
 		}
 		e = os.Remove(config.LocalDeliverablePath)
 		if e != nil {
-			log.Fatal(e)
+			log.Print(e)
 		}
 		if dd != nil {
 			csvData = conn.ReadIfFileExistsFromGit(obj)
