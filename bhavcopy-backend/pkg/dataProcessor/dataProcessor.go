@@ -143,8 +143,13 @@ func ReadZipfile() [][]string {
 
 func DownloadDeliverableDataNSE(date string) error {
 	url := fmt.Sprintf("https://nsearchives.nseindia.com/products/content/sec_bhavdata_full_%s.csv", date)
+	// Create an HTTP client with HTTP/1.1 transport
+	transport := &http.Transport{
+		ForceAttemptHTTP2: false,
+	}
 	client := &http.Client{
-		Timeout: 15 * time.Second,
+		Transport: transport,
+		Timeout:   15 * time.Second,
 	}
 
 	req, err := http.NewRequest("GET", url, nil)
@@ -153,8 +158,11 @@ func DownloadDeliverableDataNSE(date string) error {
 		return err
 	}
 
+	// Set required headers
 	req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
 	req.Header.Set("Accept", "application/json")
+	req.Header.Set("Referer", "https://www.nseindia.com/")
+	req.Header.Set("Accept-Language", "en-US,en;q=0.9")
 
 	var lastErr error
 	for i := 0; i < 3; i++ {
