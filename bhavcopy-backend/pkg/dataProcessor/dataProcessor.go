@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"net/http/httputil"
@@ -159,7 +160,7 @@ func DownloadDeliverableDataNSE(date string) error {
 
 	resp, err := client.Do(req)
 	if resp.StatusCode != http.StatusOK {
-		body, _ := io.ReadAll(resp.Body)
+		body, _ := ioutil.ReadAll(resp.Body)
 		log.Printf("API call to %s failed. Status: %d, Response: %s", url, resp.StatusCode, string(body))
 		return err
 	}
