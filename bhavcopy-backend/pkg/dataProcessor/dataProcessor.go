@@ -8,10 +8,8 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
-	"net/http/httputil"
 	"os"
 	"time"
 
@@ -144,24 +142,24 @@ func ReadZipfile() [][]string {
 
 func DownloadDeliverableDataNSE(date string) error {
 	url := fmt.Sprintf("https://nsearchives.nseindia.com/products/content/sec_bhavdata_full_%s.csv", date)
-	req, err := http.NewRequest("GET", url, nil)
-	req.Header.Add("Upgrade-Insecure-Requests", "1")
-	req.Header.Add("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36")
-	req.Header.Add("sec-ch-ua", "\"Google Chrome\";v=\"119\", \"Chromium\";v=\"119\", \"Not?A_Brand\";v=\"24\"")
-	req.Header.Add("sec-ch-ua-mobile", "?0")
-	req.Header.Add("sec-ch-ua-platform", "\"macOS\"")
+	// Create an HTTP client
 	client := &http.Client{}
-	reqDump, err := httputil.DumpRequestOut(req, true)
+
+	// Create a new HTTP request
+	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("Failed to create request: %v", err)
+		return err
 	}
 
-	fmt.Printf("REQUEST:\n%s", string(reqDump))
+	// Set required headers
+	req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+	req.Header.Set("Accept", "application/json")
 
+	// Send the request
 	resp, err := client.Do(req)
-	if resp.StatusCode != http.StatusOK {
-		body, _ := ioutil.ReadAll(resp.Body)
-		log.Printf("API call to %s failed. Status: %d, Response: %s", url, resp.StatusCode, string(body))
+	if err != nil {
+		log.Printf("Failed to call API: %v", err)
 		return err
 	}
 	defer resp.Body.Close()
