@@ -158,9 +158,10 @@ func DownloadDeliverableDataNSE(date string) error {
 	fmt.Printf("REQUEST:\n%s", string(reqDump))
 
 	resp, err := client.Do(req)
-	if err != nil || resp.StatusCode != 200 {
-		fmt.Println("Error in reading deliverable data" + string(err.Error()))
-		return errors.New("not Allowed")
+	if resp.StatusCode != http.StatusOK {
+		body, _ := io.ReadAll(resp.Body)
+		log.Printf("API call to %s failed. Status: %d, Response: %s", url, resp.StatusCode, string(body))
+		return err
 	}
 	defer resp.Body.Close()
 
