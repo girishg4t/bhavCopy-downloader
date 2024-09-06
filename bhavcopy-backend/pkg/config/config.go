@@ -87,7 +87,7 @@ func GetSha() string {
 func GetFilePath(obj Symboles) {
 	LocalZipPath = "./Data/" + obj.Date + ".zip"
 	LocalFilePath = "./Data/" + obj.Date + ".csv"
-	LocalDeliverablePath = "./Data/Deliverable" + obj.Date + ".csv"
+	LocalDeliverablePath = "./Data/" + obj.Date + ".csv"
 }
 
 var MonthMapping = map[string]string{

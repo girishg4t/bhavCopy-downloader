@@ -59,13 +59,13 @@ func csvGenerator(w http.ResponseWriter, req *http.Request) {
 			if err != nil {
 				fmt.Printf("err: %s", err)
 			}
-			dd = utils.GetDeliverableData()
+			//dd = utils.GetDeliverableData()
 		}
 
 		// fmt.Println("Done downloading zip file nse")
 		// csvData = dataProcessor.ReadZipfile()
 		//fmt.Println("Done reading zip file nse")
-		utils.SaveCSV(dd, nil)
+		// utils.SaveCSV(dd, nil)
 		conn.UpdateToGithub(obj)
 		fmt.Println("Done uploading to github")
 
